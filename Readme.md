@@ -1,6 +1,6 @@
 # Articles Summarizer - Chrome Extension
 
-Articles Summarizer is a powerful Chrome extension that uses Google's Gemini AI to provide instant summaries of web pages. A floating button appears on the side of your screen, allowing you to get a concise summary of any article with a single click.
+Articles Summarizer is a powerful Chrome extension **that emphasizes RTL support**. It uses Google's Gemini AI to provide instant summaries of web pages. A floating button appears on the side of your screen, allowing you to get a concise summary of any article with a single click.
 
  <!-- Replace with a real screenshot URL -->
 
@@ -9,26 +9,19 @@ Articles Summarizer is a powerful Chrome extension that uses Google's Gemini AI 
 *   **One-Click Summaries**: Activate the summary with a convenient floating button on the right side of any web page.
 *   **AI-Powered**: Leverages the Google Gemini API for high-quality, context-aware summaries.
 *   **Customizable**: Requires you to use your own Google Gemini API key, giving you full control.
-*   **Multi-Language Support**: Set a preferred language for your summaries (supports English, Hebrew, and Spanish).
+*   **Multi-Language Support**: Set a preferred language for your summaries (supports English, Hebrew, Arabic, etc...). with attention to RTL support.
 *   **Modern UI**: Features a clean, modern, and encapsulated UI that doesn't conflict with website styles.
 
 ## Installation
 
 Since this extension is not on the Chrome Web Store, you will need to load it manually in developer mode.
 
-1.  **Download the Code**:
-    *   Clone this repository or download the source code as a ZIP file and unzip it.
-
-2.  **Open Chrome Extensions**:
-    *   Open Google Chrome and navigate to `chrome://extensions`.
-
-3.  **Enable Developer Mode**:
-    *   In the top-right corner of the extensions page, toggle the "Developer mode" switch to **On**.
-
-4.  **Load the Extension**:
-    *   Click the "Load unpacked" button that appears.
-    *   In the file dialog, navigate to the folder where you unzipped the extension's source code (the folder containing `manifest.json`).
-    *   Select the folder to install the extension.
+*   Clone this repository or download the source code as a ZIP file and unzip it.
+*   Open Google Chrome and navigate to `chrome://extensions`.
+*   In the top-right corner of the extensions page, toggle the "Developer mode" switch to **On**.
+*   Click the "Load unpacked" button that appears.
+*   In the file dialog, navigate to the folder where you unzipped the extension's source code (the folder containing `manifest.json`).
+*   Select the folder to install the extension.
 
 The "Articles Summarizer" extension icon should now appear in your Chrome toolbar.
 
