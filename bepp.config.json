@@ -1,6 +1,6 @@
 {
   "shared": {
-    "id": "google-search-highlighter",
+    "id": "articles-summerizer",
     "input": {
       "chromium": "./src",
       "firefox": "./src"
