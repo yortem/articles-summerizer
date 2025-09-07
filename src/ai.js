@@ -11,7 +11,13 @@ async function summarizeText(content, selectedLanguage) {
     // Use Google Gemini API endpoint
     const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
-    const prompt = `Summarize the text I give you in 1 sentence. make it bold and big at the top of the text inside a different div. then, make a list <ul> with up to 3 concise bulletpoints. Your response should be in ${selectedLanguage}. Use short text in each bulletpoint. if the title of the article has a clickbait, make the answer of that clickbait be bold. Use the following content: ${content}. don't add any css to the text, just html tags.`;
+    const prompt = `
+    Summarize the text I give you in 1 sentence. make it bold and big at the top of the text inside a different div. 
+    Then, make a list <ul> with up to 5 concise bulletpoints (perfer 3 if there's no need for more info). 
+    Your response should be in ${selectedLanguage}. Use short text in each bulletpoint, up to 6-10 words. 
+    if the title of the article has a clickbait, make the answer of that clickbait be bold.
+    In cases where the title is ambiguous or does not provide clear context, base your summary solely on the content provided with explicit content, like numbers and names if needed.
+    Use the following content: ${content}. don't add any css to the text, just html tags.`;
 
     const response = await fetch(API_URL, {
         method: 'POST',
@@ -218,13 +224,12 @@ function createSummarizerButton() {
         color: white;
         border: none;
         border-radius: 10px 0 0 10px; /* Rounded corners on the left side */
-        padding: 15px 20px 15px 5px;
+        padding: 0px 30px 5px 10px;
         cursor: pointer;
         z-index: 2147483647;
         transition: right 0.3s ease-in-out; /* Smoother transition */
-        font-size: 20px;
+        font-size: 15px;
         font-weight: bold;
-        writing-mode: vertical-rl; /* To make text vertical if needed */
         text-orientation: mixed;
     `;
 
