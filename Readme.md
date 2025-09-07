@@ -29,6 +29,11 @@ The "Articles Summarizer" extension icon should now appear in your Chrome toolba
 
 Before you can use the extension, you must configure your API key.
 
+<!-- add a screenshot of a setting page -->
+![Screenshot of a setting page](/images/enterkey.jpg)
+
+## Steps
+
 1.  **Get a Google Gemini API Key**:
     *   Visit Google AI Studio to create and obtain your free API key.
 
@@ -50,6 +55,12 @@ You are now ready to use the extension!
 3.  Click the button to generate the summary.
 4.  A summary box will appear, showing a concise overview of the page content.
 5.  To close the summary, click the '×' button or click anywhere outside the summary box.
+
+## Screenshots
+
+![Screenshot](/images/summerizer-screenshot1.jpg)
+![Screenshot](/images/summerizer-screenshot2.jpg)
+![Screenshot](/images/summerizer-screenshot3.jpg)
 
 ## Contributing
 

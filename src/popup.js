@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // 1. Inject the AI script into the active tab
                 chrome.scripting.executeScript({ // This injects the script that listens for messages
                     target: { tabId: activeTab.id },
-                    files: ['src/ai.js']
+                    files: ['ai.js']
                 }).then(() => {
                     // 2. Inject a function to get page content and then send the message
                     chrome.scripting.executeScript({

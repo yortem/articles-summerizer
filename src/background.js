@@ -7,7 +7,7 @@ chrome.action.onClicked.addListener(async (tab) => {
             // 1. Inject the content script that can receive messages
             await chrome.scripting.executeScript({
                 target: { tabId: tab.id },
-                files: ['src/ai.js']
+                files: ['ai.js']
             });
             
             // 2. Get preferred language from storage
