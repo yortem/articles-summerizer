@@ -1,0 +1,48 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+#summarizer-button {
+    position: fixed;
+    top: 100px; /* Lower on the screen */
+    right: -15px; /* Partially hidden */
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px 0 0 8px; /* Rounded corners on the left side */
+    padding: 12px 20px 12px 15px; /* Adjust padding */
+    cursor: pointer;
+    z-index: 2147483647; /* Max z-index to be on top of everything */
+    transition: right 0.3s ease; /* Smooth transition for hover */
+}
+
+#summary-container {
+    position: fixed;
+    top: 60px;
+    right: 20px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    max-width: 300px;
+    z-index: 1000;
+    display: none; /* Hidden by default */
+}
+
+#summary-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+#summary-bullets {
+    list-style-type: none;
+    padding: 0;
+}
+
+#summary-bullets li {
+    margin: 5px 0;
+}
