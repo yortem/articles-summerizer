@@ -69,17 +69,21 @@
             font-weight: 500;
             height: 20px;
         }
+        /* RTL-specific styles */
+        body[dir="rtl"] label {
+            text-align: right;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>Articles Summarizer Settings</h2>
+        <h2 data-i18n="optionsTitle">Articles Summarizer Settings</h2>
         <div class="form-group">
-            <label for="apiKey">API Key:</label>
-            <input type="text" id="apiKey" placeholder="Enter your Google Gemini API Key">
+            <label for="apiKey" data-i18n="apiKeyLabel">API Key:</label>
+            <input type="text" id="apiKey" data-i18n-placeholder="apiKeyPlaceholder">
         </div>
         <div class="form-group">
-            <label for="language">Preferred Language:</label>
+            <label for="language" data-i18n="preferredLanguageLabel">Preferred Language:</label>
             <select id="language">
                 <option value="English">English</option>
                 <option value="Hebrew">Hebrew</option>
@@ -104,7 +108,7 @@
             </select>
         </div>
         <div class="form-group">
-            <label for="buttonPosition">Summarizer Button Position:</label>
+            <label for="buttonPosition" data-i18n="buttonPositionLabel">Summarizer Button Position:</label>
             <select id="buttonPosition">
                 <option value="top-right">Top Right</option>
                 <option value="top-left">Top Left</option>
@@ -112,7 +116,7 @@
                 <option value="bottom-left">Bottom Left</option>
             </select>
         </div>
-        <button id="save">Save Settings</button>
+        <button id="save" data-i18n="saveButton">Save Settings</button>
         <div id="status"></div>
     </div>
     <script src="options.js"></script>

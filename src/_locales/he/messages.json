@@ -1,0 +1,61 @@
+{
+  "extName": {
+    "message": "מסכם מאמרים",
+    "description": "שם התוסף"
+  },
+  "extDescription": {
+    "message": "תוסף כרום המסכם טקסט בעמוד הנוכחי באמצעות בינה מלאכותית.",
+    "description": "תיאור התוסף"
+  },
+  "optionsTitle": {
+    "message": "הגדרות - מסכם מאמרים",
+    "description": "כותרת דף ההגדרות"
+  },
+  "apiKeyLabel": {
+    "message": "מפתח API:",
+    "description": "תווית לשדה מפתח ה-API"
+  },
+  "apiKeyPlaceholder": {
+    "message": "הזן את מפתח ה-API של Google Gemini",
+    "description": "טקסט דמה לשדה מפתח ה-API"
+  },
+  "preferredLanguageLabel": {
+    "message": "שפה מועדפת:",
+    "description": "תווית לבחירת השפה"
+  },
+  "buttonPositionLabel": {
+    "message": "מיקום כפתור הסיכום:",
+    "description": "תווית לבחירת מיקום הכפתור"
+  },
+  "saveButton": {
+    "message": "שמור הגדרות",
+    "description": "טקסט כפתור השמירה"
+  },
+  "settingsSaved": {
+    "message": "ההגדרות נשמרו בהצלחה!",
+    "description": "הודעת סטטוס לאחר שמירת הגדרות"
+  },
+  "errorApiKeyNotFound": {
+    "message": "מפתח API לא נמצא. אנא הגדר אותו באפשרויות התוסף.",
+    "description": "הודעת שגיאה כאשר מפתח API חסר"
+  },
+  "errorInvalidApiKey": {
+    "message": "מפתח API שגוי. אנא בדוק אותו בדף ההגדרות.",
+    "description": "הודעת שגיאה עבור מפתח API שגוי"
+  },
+"errorApiFailed": {
+    "message": "נכשל בקבלת סיכום מה-AI. $details$",
+    "placeholders": {
+      "details": { "content": "$1" }
+    }
+  },
+  "errorParse": { "message": "לא ניתן היה לפענח את הסיכום מתגובת ה-API." },
+  "loadingMessage": { "message": "אנא המתן..." },
+  "errorApiKeyMissing": { "message": "מפתח API חסר." },
+  "errorSetApiKey": { "message": "אנא הגדר את מפתח ה-API שלך בדף ההגדרות." },
+"genericError": {
+    "message": "שגיאה: $details$",
+    "placeholders": {
+      "details": { "content": "$1" }
+    }
+  }}

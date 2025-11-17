@@ -1,0 +1,62 @@
+{
+  "extName": {
+    "message": "ملخص المقالات",
+    "description": "اسم الإضافة"
+  },
+  "extDescription": {
+    "message": "إضافة لمتصفح كروم تقوم بتلخيص النصوص في الصفحة الحالية باستخدام الذكاء الاصطناعي.",
+    "description": "وصف الإضافة"
+  },
+  "optionsTitle": {
+    "message": "إعدادات ملخص المقالات",
+    "description": "عنوان صفحة الإعدادات"
+  },
+  "apiKeyLabel": {
+    "message": "مفتاح API:",
+    "description": "تسمية حقل مفتاح API"
+  },
+  "apiKeyPlaceholder": {
+    "message": "أدخل مفتاح API الخاص بك لـ Google Gemini",
+    "description": "نص نائب لحقل مفتاح API"
+  },
+  "preferredLanguageLabel": {
+    "message": "اللغة المفضلة:",
+    "description": "تسمية اختيار اللغة"
+  },
+  "buttonPositionLabel": {
+    "message": "موقع زر التلخيص:",
+    "description": "تسمية اختيار موقع الزر"
+  },
+  "saveButton": {
+    "message": "حفظ الإعدادات",
+    "description": "نص زر الحفظ"
+  },
+  "settingsSaved": {
+    "message": "تم حفظ الإعدادات بنجاح!",
+    "description": "رسالة الحالة عند حفظ الإعدادات"
+  },
+  "errorApiKeyNotFound": {
+    "message": "مفتاح API غير موجود. يرجى إعداده في خيارات الإضافة.",
+    "description": "رسالة خطأ عند فقدان مفتاح API"
+  },
+  "errorInvalidApiKey": {
+    "message": "مفتاح API غير صالح. يرجى التحقق منه في صفحة الإعدادات.",
+    "description": "رسالة خطأ لمفتاح API غير صالح"
+  },
+"errorApiFailed": {
+    "message": "فشل في الحصول على ملخص من الذكاء الاصطناعي. $details$",
+    "placeholders": {
+      "details": { "content": "$1" }
+    }
+  },  
+  "errorParse": { "message": "تعذر تحليل الملخص من استجابة الواجهة البرمجية (API)." },
+  "loadingMessage": { "message": "الرجاء الانتظار..." },
+  "errorApiKeyMissing": { "message": "مفتاح API مفقود." },
+  "errorSetApiKey": { "message": "يرجى إعداد مفتاح API الخاص بك في صفحة الإعدادات." },
+"genericError": {
+    "message": "خطأ: $details$",
+    "placeholders": {
+      "details": { "content": "$1" }
+    }
+  }}
+

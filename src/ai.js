@@ -5,7 +5,7 @@ async function summarizeText(content, selectedLanguage) {
     const { apiKey } = await chrome.storage.sync.get('apiKey');
 
     if (!apiKey) {
-        throw new Error('API Key not found. Please set it in the extension options.');
+        throw new Error(chrome.i18n.getMessage('errorApiKeyNotFound'));
     }
 
     // Use Google Gemini API endpoint
@@ -51,7 +51,7 @@ ${content}
         const errorBody = await response.json().catch(() => ({})); // Try to parse error
         const errorMessage = errorBody?.error?.message || `HTTP error! status: ${response.status}`;
         console.error("API Error:", errorMessage);
-        const userFriendlyMessage = response.status === 400 ? 'Invalid API Key. Please check it in the options page.' : `Failed to get summary from AI. ${errorMessage}`;
+        const userFriendlyMessage = response.status === 400 ? chrome.i18n.getMessage('errorInvalidApiKey') : chrome.i18n.getMessage('errorApiFailed', errorMessage);
         throw new Error(userFriendlyMessage);
     }
 
@@ -63,7 +63,7 @@ ${content}
         // The new prompt is less likely to produce markdown code blocks, but cleanup is still good practice if needed.
         return summaryText.trim();
     } else {
-        throw new Error('Could not parse summary from API response.');
+        throw new Error(chrome.i18n.getMessage('errorParse'));
     }
 }
 
@@ -121,7 +121,7 @@ function showLoadingState() {
         color: #ffffff;
         text-align: center;
     `;
-    container.innerHTML = `Please wait...`;
+    container.innerHTML = chrome.i18n.getMessage('loadingMessage');
     shadow.appendChild(container);
     document.body.appendChild(host);
 }
@@ -287,7 +287,7 @@ async function createSummarizerButton() {
             await summarizeText(content, lang).then(summary => displaySummary(summary, lang));
         } catch (error) {
             console.error(error);
-            displaySummary(`<p style="color: #ffdddd;">Error: ${error.message}</p>`, 'English'); // Display error in the box
+            displaySummary(`<p style="color: #ffdddd;">${chrome.i18n.getMessage('genericError', error.message)}</p>`, 'English'); // Display error in the box
         }
     });
 
@@ -304,11 +304,11 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             })
             .catch(error => {
                 console.error(error);
-                if (error.message.includes('API Key not found')) {
+                if (error.message === chrome.i18n.getMessage('errorApiKeyNotFound')) {
                     const optionsUrl = chrome.runtime.getURL('options.html'); // Keep this for the specific "not set" error
-                    displaySummary(`<div class="error-message"><p>API Key is missing.</p><p><a href="${optionsUrl}" target="_blank">Please set your API key in the options page.</a></p></div>`, 'English');
+                    displaySummary(`<div class="error-message"><p>${chrome.i18n.getMessage('errorApiKeyMissing')}</p><p><a href="${optionsUrl}" target="_blank">${chrome.i18n.getMessage('errorSetApiKey')}</a></p></div>`, 'English');
                 } else {
-                    displaySummary(`<p style="color: #ffdddd;">Error: ${error.message}</p>`, 'English'); // Display error
+                    displaySummary(`<p style="color: #ffdddd;">${chrome.i18n.getMessage('genericError', error.message)}</p>`, 'English'); // Display error
                 }
             });
         return true; // Indicates that the response will be sent asynchronously

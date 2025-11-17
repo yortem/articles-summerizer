@@ -1,0 +1,80 @@
+{
+  "extName": {
+    "message": "Articles Summarizer",
+    "description": "The name of the extension."
+  },
+  "extDescription": {
+    "message": "A Chrome extension that summarizes text on the current page using AI.",
+    "description": "The description of the extension."
+  },
+  "optionsTitle": {
+    "message": "Articles Summarizer Settings",
+    "description": "Title for the options page."
+  },
+  "apiKeyLabel": {
+    "message": "API Key:",
+    "description": "Label for the API Key input."
+  },
+  "apiKeyPlaceholder": {
+    "message": "Enter your Google Gemini API Key",
+    "description": "Placeholder for the API Key input."
+  },
+  "preferredLanguageLabel": {
+    "message": "Preferred Language:",
+    "description": "Label for the language selection."
+  },
+  "buttonPositionLabel": {
+    "message": "Summarizer Button Position:",
+    "description": "Label for the button position selection."
+  },
+  "saveButton": {
+    "message": "Save Settings",
+    "description": "Text for the save button."
+  },
+  "settingsSaved": {
+    "message": "Settings saved successfully!",
+    "description": "Status message when settings are saved."
+  },
+  "errorApiKeyNotFound": {
+    "message": "API Key not found. Please set it in the extension options.",
+    "description": "Error message when API key is missing."
+  },
+  "errorInvalidApiKey": {
+    "message": "Invalid API Key. Please check it in the options page.",
+    "description": "Error message for an invalid API key."
+  },
+  "errorApiFailed": {
+    "message": "Failed to get summary from AI. $details$",
+    "description": "Generic error for API failure.",
+    "placeholders": {
+      "details": {
+        "content": "$1",
+        "example": "HTTP 404"
+      }
+    }
+  },
+  "errorParse": {
+    "message": "Could not parse summary from API response.",
+    "description": "Error message when the response from the AI is unreadable."
+  },
+  "loadingMessage": {
+    "message": "Please wait...",
+    "description": "Message shown while the summary is being generated."
+  },
+  "errorApiKeyMissing": {
+    "message": "API Key is missing.",
+    "description": "Short error message for missing API key."
+  },
+  "errorSetApiKey": {
+    "message": "Please set your API key in the options page.",
+    "description": "Instruction to set the API key."
+  },
+  "genericError": {
+    "message": "Error: $details$",
+    "description": "Generic error prefix.",
+    "placeholders": {
+      "details": { "content": "$1" }
+    }
+  }
+}
+

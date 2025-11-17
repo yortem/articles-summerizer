@@ -1,8 +1,9 @@
 {
   "manifest_version": 3,
-  "name": "Articles Summarizer",
-  "version": "0.93",
-  "description": "A Chrome extension that summarizes text on the current page using AI.",
+  "name": "__MSG_extName__",
+  "version": "0.94",
+  "description": "__MSG_extDescription__",
+  "default_locale": "en",
   "permissions": [
     "activeTab",
     "scripting",
