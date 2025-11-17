@@ -44,6 +44,7 @@ Before you can use the extension, you must configure your API key.
 3.  **Save Your Settings**:
     *   Paste your Google Gemini API key into the "API Key" field.
     *   Select your "Preferred Language" from the dropdown menu.
+    *   Pick the position of the summerizer button. 
     *   Click "Save Settings".
 
 You are now ready to use the extension!

@@ -11,13 +11,26 @@ async function summarizeText(content, selectedLanguage) {
     // Use Google Gemini API endpoint
     const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
+    // Improved prompt for better and more structured summaries
     const prompt = `
-    Summarize the text I give you in 1 sentence. make it bold and big at the top of the text inside a different div. 
-    Then, make a list <ul> with up to 5 concise bulletpoints (perfer 3 if there's no need for more info). 
-    Your response should be in ${selectedLanguage}. Use short text in each bulletpoint, up to 6-10 words. 
-    if the title of the article has a clickbait, make the answer of that clickbait be bold.
-    In cases where the title is ambiguous or does not provide clear context, base your summary solely on the content provided with explicit content, like numbers and names if needed.
-    Use the following content: ${content}. don't add any css to the text, just html tags.`;
+You are an expert text summarizer. Your goal is to provide a clear, concise, and easy-to-read summary of the provided article text.
+
+Follow these steps:
+1.  **Headline**: Create a short, engaging headline for the summary. This should be a single, impactful sentence. If the original article title is clickbait, this headline should directly answer the clickbait question.
+2.  **Bullet Points**: Generate 3 to 5 key bullet points that capture the main ideas of the text. Each bullet point should be concise (6-10 words).
+3.  **Expanded Summary**: After the bullet points, write a slightly more detailed summary of 2-3 sentences that elaborates on the main points.
+
+**Response Format**:
+-   Your entire response must be in ${selectedLanguage}.
+-   Start with the headline, prefixed by '# '.
+-   Follow with the bullet points, each on a new line and prefixed by '* '.
+-   Follow with the expanded summary, prefixed by '> '.
+-   Do not use any other formatting, HTML, or markdown.
+
+Here is the text to summarize:
+---
+${content}
+---`;
 
     const response = await fetch(API_URL, {
         method: 'POST',
@@ -35,10 +48,11 @@ async function summarizeText(content, selectedLanguage) {
     });
 
     if (!response.ok) {
-        if (response.status === 401) {
-            throw new Error('Authentication failed. Please check your API key in the extension options.');
-        }
-        throw new Error('Failed to fetch summary from AI API');
+        const errorBody = await response.json().catch(() => ({})); // Try to parse error
+        const errorMessage = errorBody?.error?.message || `HTTP error! status: ${response.status}`;
+        console.error("API Error:", errorMessage);
+        const userFriendlyMessage = response.status === 400 ? 'Invalid API Key. Please check it in the options page.' : `Failed to get summary from AI. ${errorMessage}`;
+        throw new Error(userFriendlyMessage);
     }
 
     const data = await response.json();
@@ -46,9 +60,7 @@ async function summarizeText(content, selectedLanguage) {
     // Extract the summary text from the Gemini API response
     if (data.candidates && data.candidates[0] && data.candidates[0].content.parts[0].text) {
         let summaryText = data.candidates[0].content.parts[0].text;
-        // Clean up markdown code blocks that the AI might add
-        summaryText = summaryText.replace(/```html/g, '');
-        summaryText = summaryText.replace(/```/g, '');
+        // The new prompt is less likely to produce markdown code blocks, but cleanup is still good practice if needed.
         return summaryText.trim();
     } else {
         throw new Error('Could not parse summary from API response.');
@@ -57,18 +69,20 @@ async function summarizeText(content, selectedLanguage) {
 
 function markdownToHtml(text) {
     // Convert bold and italic (**text** or *text*)
-    text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); // This might be used by the AI despite instructions
     // Convert headings (# text)
     text = text.replace(/^#\s+(.*)/gm, '<h1>$1</h1>');
+    // Convert expanded summary (> text)
+    text = text.replace(/^>\s+(.*)/gm, '<p class="expanded-summary">$1</p>');
     // Convert list items (* text)
     const lines = text.split('\n');
-    const htmlLines = lines.map(line => {
-        if (line.trim().startsWith('*')) {
-            return `<li>${line.trim().substring(1).trim()}</li>`;
-        }
-        return line;
-    });
-    return `<ul>${htmlLines.join('')}</ul>`.replace(/<\/ul><ul>/g, ''); // Join lists
+    let inList = false;
+    let html = lines.map(line => {
+        line = line.trim();
+        if (line.startsWith('* ')) return `<li>${line.substring(2).replace(/<p class="expanded-summary">.*<\/p>/, '')}</li>`; // Avoid nesting p in li
+        return line; // Keep other lines as they are (like the h1)
+    }).join('');
+    return html.replace(/<li>/g, '<ul><li>').replace(/<\/li>(?!<li>)/g, '</li></ul>').replace(/<\/li><li>/g, '</li><li>');
 }
 
 function showLoadingState() {
@@ -181,8 +195,10 @@ function displaySummary(summary, language) {
     style.textContent = `
         .ai-summary-container, .ai-summary-container * { font-family: 'Open sans hebrew' !important; font-size: 20px !important; }
         .ai-summary-container h1, .ai-summary-container h1 * { font-size: 20px !important; margin-top: 0; } /* Slightly smaller h1 */
-        .ai-summary-container ul { padding-right: 20px; list-style-type: inherit; }
+        .ai-summary-container ul { padding-right: 20px; list-style-type: inherit; margin-top: 10px; margin-bottom: 10px; }
+        .ai-summary-container li { line-height: 1.4; padding-bottom: 5px; }
         .ai-summary-container a { color: #d6d6ff; text-decoration: underline; }
+        .ai-summary-container .expanded-summary { font-size: 16px !important; opacity: 0.9; margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.3); padding-top: 15px; }
         .ai-summary-container .error-message {
             display: flex;
             flex-direction: column;
@@ -204,7 +220,7 @@ function displaySummary(summary, language) {
     setTimeout(() => document.addEventListener('click', handleOutsideClick, true), 0);
 }
 
-function createSummarizerButton() {
+async function createSummarizerButton() {
     // Avoid creating multiple buttons
     if (document.getElementById('summarizer-button')) {
         return;
@@ -217,24 +233,49 @@ function createSummarizerButton() {
     // Apply styles from popup.css via a class or directly
     button.style.cssText = `
         position: fixed;
-        top: 150px; /* Lowered a bit */
-        right: -20px; /* Mostly hidden, adjust as needed */
         background-color: rgb(110 92 237);
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         color: white;
         border: none;
-        border-radius: 10px 0 0 10px; /* Rounded corners on the left side */
         padding: 0px 30px 5px 10px;
         cursor: pointer;
         z-index: 2147483647;
-        transition: right 0.3s ease-in-out; /* Smoother transition */
+        transition: all 0.3s ease-in-out; /* Smoother transition for all properties */
         font-size: 15px;
         font-weight: bold;
         text-orientation: mixed;
     `;
 
-    button.onmouseover = () => { button.style.right = '0'; };
-    button.onmouseout = () => { button.style.right = '-20px'; };
+    // Get position from storage and apply styles
+    const { buttonPosition } = await chrome.storage.sync.get('buttonPosition');
+    const position = buttonPosition || 'top-right'; // Default to top-right
+
+    const hiddenOffset = '-20px';
+    const visibleOffset = '0';
+
+    switch (position) {
+        case 'top-left':
+            Object.assign(button.style, { top: '150px', left: hiddenOffset, borderRadius: '0 10px 10px 0' });
+            button.onmouseover = () => { button.style.left = visibleOffset; };
+            button.onmouseout = () => { button.style.left = hiddenOffset; };
+            break;
+        case 'bottom-right':
+            Object.assign(button.style, { bottom: '50px', right: hiddenOffset, borderRadius: '10px 0 0 10px' });
+            button.onmouseover = () => { button.style.right = visibleOffset; };
+            button.onmouseout = () => { button.style.right = hiddenOffset; };
+            break;
+        case 'bottom-left':
+            Object.assign(button.style, { bottom: '50px', left: hiddenOffset, borderRadius: '0 10px 10px 0' });
+            button.onmouseover = () => { button.style.left = visibleOffset; };
+            button.onmouseout = () => { button.style.left = hiddenOffset; };
+            break;
+        case 'top-right':
+        default:
+            Object.assign(button.style, { top: '150px', right: hiddenOffset, borderRadius: '10px 0 0 10px' });
+            button.onmouseover = () => { button.style.right = visibleOffset; };
+            button.onmouseout = () => { button.style.right = hiddenOffset; };
+            break;
+    }
 
     // Restore the click functionality to the floating button
     button.addEventListener('click', async () => {
@@ -264,7 +305,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             .catch(error => {
                 console.error(error);
                 if (error.message.includes('API Key not found')) {
-                    const optionsUrl = chrome.runtime.getURL('options.html');
+                    const optionsUrl = chrome.runtime.getURL('options.html'); // Keep this for the specific "not set" error
                     displaySummary(`<div class="error-message"><p>API Key is missing.</p><p><a href="${optionsUrl}" target="_blank">Please set your API key in the options page.</a></p></div>`, 'English');
                 } else {
                     displaySummary(`<p style="color: #ffdddd;">Error: ${error.message}</p>`, 'English'); // Display error
