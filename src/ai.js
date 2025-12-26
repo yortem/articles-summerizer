@@ -9,7 +9,7 @@ async function summarizeText(content, selectedLanguage) {
     }
 
     // Use Google Gemini API endpoint
-    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
 
     // Improved prompt for better and more structured summaries
     const prompt = `
