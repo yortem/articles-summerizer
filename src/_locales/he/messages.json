@@ -23,9 +23,27 @@
     "message": "שפה מועדפת:",
     "description": "תווית לבחירת השפה"
   },
-  "buttonPositionLabel": {
-    "message": "מיקום כפתור הסיכום:",
-    "description": "תווית לבחירת מיקום הכפתור"
+  "modelLabel": {
+    "message": "מודל AI:",
+    "description": "תווית לבחירת מודל Gemini"
+  },
+  "modelHint": {
+    "message": "רשומים כאן רק מודלים חינמיים. המכסה היומית היא לכל מודל בנפרד, כך שאפשר לעבור למודל אחר כשמגיעים למגבלה. כברירת מחדל נבחר המודל המהיר והחסכוני ביותר.",
+    "description": "טקסט עזר מתחת לבחירת המודל"
+  },
+  "modelOptionLabel": {
+    "message": "$name$ — $count$ ביום בחינם",
+    "description": "תווית אפשרות מודל עם המכסה היומית החינמית",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Gemini 3.5 Flash-Lite"
+      },
+      "count": {
+        "content": "$2",
+        "example": "500"
+      }
+    }
   },
   "saveButton": {
     "message": "שמור הגדרות",
@@ -43,19 +61,134 @@
     "message": "מפתח API שגוי. אנא בדוק אותו בדף ההגדרות.",
     "description": "הודעת שגיאה עבור מפתח API שגוי"
   },
-"errorApiFailed": {
+  "errorAuth": {
+    "message": "אין הרשאה למודל שנבחר או שמפתח ה-API אינו תקין. בדוק את ההגדרות.",
+    "description": "הודעת שגיאה לכשל אימות או הרשאה"
+  },
+  "errorQuota": {
+    "message": "הגעת למגבלת החינם. המתן רגע, או עבור למודל חינמי אחר בהגדרות.",
+    "description": "הודעת שגיאה לחריגה ממגבלת שימוש"
+  },
+  "errorTimeout": {
+    "message": "הבקשה ארכה יותר מדי זמן. נסה שוב.",
+    "description": "הודעת שגיאה לפסק זמן"
+  },
+  "errorNetwork": {
+    "message": "שגיאת תקשורת. בדוק את החיבור לאינטרנט ונסה שוב.",
+    "description": "הודעת שגיאה לכשל רשת"
+  },
+  "errorBlocked": {
+    "message": "לא ניתן לסכם את התוכן הזה מסיבות בטיחות.",
+    "description": "הודעת שגיאה כאשר התוכן נחסם על ידי מסנני בטיחות"
+  },
+  "errorTruncated": {
+    "message": "התשובה נקטעה לפני שהסתיימה. נסה שוב.",
+    "description": "הודעת שגיאה כאשר המודל עצר מוקדם מדי"
+  },
+  "errorNoContent": {
+    "message": "לא נמצא מספיק טקסט בעמוד הזה כדי לסכם.",
+    "description": "הודעת שגיאה כאשר בעמוד יש מעט מדי טקסט"
+  },
+  "errorModel": {
+    "message": "המודל שנבחר אינו זמין. בחר מודל אחר בהגדרות.",
+    "description": "הודעת שגיאה כאשר המודל אינו זמין"
+  },
+  "errorContextLost": {
+    "message": "התוסף עודכן או נטען מחדש. רענן את העמוד ונסה שוב.",
+    "description": "הודעת שגיאה כאשר ה-content script איבד את הקשר התוסף"
+  },
+  "errorTitle": {
+    "message": "לא הצלחנו לסכם",
+    "description": "כותרת מעל הודעת שגיאה"
+  },
+  "errorUnknown": {
+    "message": "משהו השתבש. נסה שוב.",
+    "description": "הודעת שגיאה כללית לתקלות לא צפויות"
+  },
+  "errorSaveSettings": {
+    "message": "לא ניתן היה לשמור את ההגדרות. $details$",
+    "description": "הודעת שגיאה כאשר שמירת ההגדרות נכשלת",
+    "placeholders": {
+      "details": {
+        "content": "$1",
+        "example": "חריגה ממכסת האחסון"
+      }
+    }
+  },
+  "errorApiFailed": {
     "message": "נכשל בקבלת סיכום מה-AI. $details$",
     "placeholders": {
       "details": { "content": "$1" }
     }
   },
-  "errorParse": { "message": "לא ניתן היה לפענח את הסיכום מתגובת ה-API." },
-  "loadingMessage": { "message": "אנא המתן..." },
-  "errorApiKeyMissing": { "message": "מפתח API חסר." },
-  "errorSetApiKey": { "message": "אנא הגדר את מפתח ה-API שלך בדף ההגדרות." },
-"genericError": {
+  "errorParse": {
+    "message": "לא ניתן היה לקרוא את הסיכום שחזר מה-AI. נסה שוב.",
+    "description": "הודעת שגיאה כאשר תגובת ה-AI אינה קריאה"
+  },
+  "loadingMessage": {
+    "message": "מסכם...",
+    "description": "הודעה בזמן יצירת הסיכום"
+  },
+  "errorApiKeyMissing": {
+    "message": "מפתח API חסר.",
+    "description": "הודעת שגיאה קצרה למפתח API חסר"
+  },
+  "errorSetApiKey": {
+    "message": "פתח הגדרות",
+    "description": "טקסט קישור לפתיחת דף ההגדרות"
+  },
+  "keyTermsTitle": {
+    "message": "מונחים מרכזיים",
+    "description": "כותרת קטע המונחים האופציונלי"
+  },
+  "questionsTitle": {
+    "message": "שאלות פתוחות",
+    "description": "כותרת קטע השאלות האופציונלי"
+  },
+  "readingTime": {
+    "message": "זמן קריאה: $minutes$ דק׳",
+    "description": "תגית זמן קריאה",
+    "placeholders": {
+      "minutes": {
+        "content": "$1",
+        "example": "6"
+      }
+    }
+  },
+  "cachedLabel": {
+    "message": "תוצאה שמורה",
+    "description": "תגית המוצגת כאשר נעשה שימוש בסיכום שמור"
+  },
+  "languageWarning": {
+    "message": "ייתכן שהשפה שגויה",
+    "description": "תגית המוצגת כאשר המודל לא השתמש בשפת הסיכום שנבחרה"
+  },
+  "summaryByModel": {
+    "message": "סוכם באמצעות $model$",
+    "description": "תגית המציינת באיזה מודל נוצר הסיכום",
+    "placeholders": {
+      "model": {
+        "content": "$1",
+        "example": "Gemini 3.5 Flash-Lite"
+      }
+    }
+  },
+  "retryButton": {
+    "message": "נסה שוב",
+    "description": "כפתור ניסיון חוזר במסך השגיאה"
+  },
+  "closeLabel": {
+    "message": "סגור",
+    "description": "תווית נגישות לכפתור הסגירה"
+  },
+  "refreshLabel": {
+    "message": "סיכום מחדש",
+    "description": "תווית נגישות לכפתור הרענון"
+  },
+  "genericError": {
     "message": "שגיאה: $details$",
     "placeholders": {
       "details": { "content": "$1" }
     }
-  }}
+  }
+}

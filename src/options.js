@@ -1,56 +1,101 @@
+/* Options page: loads shared configuration and persists user settings. */
 document.addEventListener('DOMContentLoaded', () => {
-    // Function to set localized text
-    const setLocaleText = () => {
-        document.querySelectorAll('[data-i18n]').forEach(element => {
-            const messageKey = element.getAttribute('data-i18n');
-            element.textContent = chrome.i18n.getMessage(messageKey);
-        });
-        document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
-            const messageKey = element.getAttribute('data-i18n-placeholder');
-            element.placeholder = chrome.i18n.getMessage(messageKey);
-        });
-        document.title = chrome.i18n.getMessage('optionsTitle');
-    };
-
-    // Set initial text
-    setLocaleText();
-
-    // Set page direction for RTL languages
-    const uiLang = chrome.i18n.getUILanguage();
-    if (uiLang.startsWith('he') || uiLang.startsWith('ar')) {
-        document.body.dir = 'rtl';
-    }
+    const {
+        LANGUAGES,
+        MODELS,
+        DEFAULT_SETTINGS,
+        normalizeLanguage
+    } = globalThis.SummarizerShared;
 
     const apiKeyInput = document.getElementById('apiKey');
     const saveButton = document.getElementById('save');
     const languageSelect = document.getElementById('language');
-    const buttonPositionSelect = document.getElementById('buttonPosition');
+    const modelSelect = document.getElementById('model');
     const statusDiv = document.getElementById('status');
 
-    // Load the saved settings
-    chrome.storage.sync.get(['apiKey', 'preferredLanguage', 'buttonPosition'], (result) => {
-        if (result.apiKey) {
-            apiKeyInput.value = result.apiKey;
-        }
-        if (result.preferredLanguage) {
-            languageSelect.value = result.preferredLanguage;
-        }
-        if (result.buttonPosition) {
-            buttonPositionSelect.value = result.buttonPosition;
-        }
-    });
+    setLocaleText();
+    setDirection();
+    populateSelect(languageSelect, LANGUAGES, DEFAULT_SETTINGS.preferredLanguage);
+    populateSelect(
+        modelSelect,
+        MODELS.map(model => ({
+            value: model.id,
+            label: chrome.i18n.getMessage('modelOptionLabel', [
+                model.name,
+                String(model.freePerDay)
+            ]) || `${model.name} — ${model.freePerDay}/day`
+        })),
+        DEFAULT_SETTINGS.modelId
+    );
+    saveButton.disabled = true;
+    void loadSettings();
 
-    // Save the settings
-    saveButton.addEventListener('click', () => {
-        const apiKey = apiKeyInput.value;
-        const preferredLanguage = languageSelect.value;
-        const buttonPosition = buttonPositionSelect.value;
-
-        chrome.storage.sync.set({ apiKey, preferredLanguage, buttonPosition }, () => {
-            // Display a success message instead of an alert
-            statusDiv.textContent = chrome.i18n.getMessage('settingsSaved');
-            // Clear the message after a few seconds
-            setTimeout(() => { statusDiv.textContent = ''; }, 3000);
+    function setLocaleText() {
+        document.querySelectorAll('[data-i18n]').forEach(element => {
+            element.textContent = chrome.i18n.getMessage(element.getAttribute('data-i18n'));
         });
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+            element.placeholder = chrome.i18n.getMessage(element.getAttribute('data-i18n-placeholder'));
+        });
+        document.title = chrome.i18n.getMessage('optionsTitle');
+    }
+
+    function setDirection() {
+        const uiLanguage = chrome.i18n.getUILanguage();
+        if (uiLanguage.startsWith('he') || uiLanguage.startsWith('ar')) {
+            document.body.dir = 'rtl';
+        }
+    }
+
+    function populateSelect(select, items, selectedValue) {
+        select.replaceChildren();
+        items.forEach(item => {
+            const option = document.createElement('option');
+            const value = typeof item === 'string' ? item : item.value;
+            option.value = value;
+            option.textContent = typeof item === 'string' ? item : item.label;
+            if (value === selectedValue) option.selected = true;
+            select.appendChild(option);
+        });
+    }
+
+    async function loadSettings() {
+        let loaded = false;
+        try {
+            const stored = await chrome.storage.sync.get(['apiKey', 'preferredLanguage', 'modelId']);
+
+            if (stored.apiKey) apiKeyInput.value = stored.apiKey;
+
+            if (stored.preferredLanguage) {
+                languageSelect.value = normalizeLanguage(stored.preferredLanguage);
+            }
+
+            if (stored.modelId && MODELS.some(model => model.id === stored.modelId)) {
+                modelSelect.value = stored.modelId;
+            }
+            loaded = true;
+        } catch (error) {
+            console.error('Could not load settings:', error);
+        } finally {
+            // Do not allow saving defaults over existing settings if loading failed.
+            if (loaded) saveButton.disabled = false;
+        }
+    }
+
+    saveButton.addEventListener('click', async () => {
+        const settings = {
+            apiKey: apiKeyInput.value.trim(),
+            preferredLanguage: normalizeLanguage(languageSelect.value),
+            modelId: modelSelect.value
+        };
+
+        try {
+            await chrome.storage.sync.set(settings);
+            statusDiv.textContent = chrome.i18n.getMessage('settingsSaved');
+            setTimeout(() => { statusDiv.textContent = ''; }, 3000);
+        } catch (error) {
+            console.error('Could not save settings:', error);
+            statusDiv.textContent = chrome.i18n.getMessage('errorSaveSettings', [error.message || '']);
+        }
     });
 });

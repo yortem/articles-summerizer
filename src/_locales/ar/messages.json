@@ -23,9 +23,27 @@
     "message": "اللغة المفضلة:",
     "description": "تسمية اختيار اللغة"
   },
-  "buttonPositionLabel": {
-    "message": "موقع زر التلخيص:",
-    "description": "تسمية اختيار موقع الزر"
+  "modelLabel": {
+    "message": "نموذج الذكاء الاصطناعي:",
+    "description": "تسمية اختيار نموذج Gemini"
+  },
+  "modelHint": {
+    "message": "تظهر هنا نماذج الطبقة المجانية فقط. الحد اليومي لكل نموذج على حدة، لذا يمكنك التبديل إلى نموذج آخر عند بلوغ الحد. تم اختيار النموذج الأسرع والأوفر افتراضياً.",
+    "description": "نص مساعد أسفل اختيار النموذج"
+  },
+  "modelOptionLabel": {
+    "message": "$name$ — $count$ يومياً مجاناً",
+    "description": "تسمية خيار النموذج مع حصته اليومية المجانية",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Gemini 3.5 Flash-Lite"
+      },
+      "count": {
+        "content": "$2",
+        "example": "500"
+      }
+    }
   },
   "saveButton": {
     "message": "حفظ الإعدادات",
@@ -43,20 +61,134 @@
     "message": "مفتاح API غير صالح. يرجى التحقق منه في صفحة الإعدادات.",
     "description": "رسالة خطأ لمفتاح API غير صالح"
   },
-"errorApiFailed": {
+  "errorAuth": {
+    "message": "لا توجد صلاحية للنموذج المحدد أو أن مفتاح API غير صالح. تحقق من الإعدادات.",
+    "description": "رسالة خطأ عند فشل المصادقة أو الصلاحيات"
+  },
+  "errorQuota": {
+    "message": "تم بلوغ حد الطبقة المجانية. انتظر قليلاً أو بدّل إلى نموذج مجاني آخر من الإعدادات.",
+    "description": "رسالة خطأ عند تجاوز حد الاستخدام"
+  },
+  "errorTimeout": {
+    "message": "استغرق الطلب وقتاً طويلاً. حاول مرة أخرى.",
+    "description": "رسالة خطأ عند انتهاء المهلة"
+  },
+  "errorNetwork": {
+    "message": "خطأ في الاتصال. تحقق من اتصالك بالإنترنت وحاول مرة أخرى.",
+    "description": "رسالة خطأ عند فشل الشبكة"
+  },
+  "errorBlocked": {
+    "message": "لا يمكن تلخيص هذا المحتوى لأسباب تتعلق بالسلامة.",
+    "description": "رسالة خطأ عند حجب المحتوى بواسطة مرشحات السلامة"
+  },
+  "errorTruncated": {
+    "message": "تم قطع الاستجابة قبل اكتمالها. حاول مرة أخرى.",
+    "description": "رسالة خطأ عند توقف النموذج مبكراً"
+  },
+  "errorNoContent": {
+    "message": "لا يوجد نص كافٍ في هذه الصفحة لتلخيصه.",
+    "description": "رسالة خطأ عند وجود نص قليل جداً في الصفحة"
+  },
+  "errorModel": {
+    "message": "النموذج المحدد غير متاح. اختر نموذجاً آخر من الإعدادات.",
+    "description": "رسالة خطأ عند عدم توفر النموذج"
+  },
+  "errorContextLost": {
+    "message": "تم تحديث الإضافة أو إعادة تحميلها. أعد تحميل الصفحة وحاول مرة أخرى.",
+    "description": "رسالة خطأ عند فقدان سياق الإضافة"
+  },
+  "errorTitle": {
+    "message": "تعذر التلخيص",
+    "description": "عنوان يظهر فوق رسالة الخطأ"
+  },
+  "errorUnknown": {
+    "message": "حدث خطأ ما. حاول مرة أخرى.",
+    "description": "رسالة خطأ عامة للأعطال غير المتوقعة"
+  },
+  "errorSaveSettings": {
+    "message": "تعذر حفظ الإعدادات. $details$",
+    "description": "رسالة خطأ عند فشل حفظ الإعدادات",
+    "placeholders": {
+      "details": {
+        "content": "$1",
+        "example": "تجاوز حصة التخزين"
+      }
+    }
+  },
+  "errorApiFailed": {
     "message": "فشل في الحصول على ملخص من الذكاء الاصطناعي. $details$",
     "placeholders": {
       "details": { "content": "$1" }
     }
-  },  
-  "errorParse": { "message": "تعذر تحليل الملخص من استجابة الواجهة البرمجية (API)." },
-  "loadingMessage": { "message": "الرجاء الانتظار..." },
-  "errorApiKeyMissing": { "message": "مفتاح API مفقود." },
-  "errorSetApiKey": { "message": "يرجى إعداد مفتاح API الخاص بك في صفحة الإعدادات." },
-"genericError": {
+  },
+  "errorParse": {
+    "message": "تعذر قراءة الملخص الذي أعاده الذكاء الاصطناعي. حاول مرة أخرى.",
+    "description": "رسالة خطأ عند تعذر قراءة استجابة الذكاء الاصطناعي"
+  },
+  "loadingMessage": {
+    "message": "جارٍ التلخيص...",
+    "description": "رسالة تظهر أثناء إنشاء الملخص"
+  },
+  "errorApiKeyMissing": {
+    "message": "مفتاح API مفقود.",
+    "description": "رسالة خطأ قصيرة لمفتاح API مفقود"
+  },
+  "errorSetApiKey": {
+    "message": "فتح الإعدادات",
+    "description": "نص رابط فتح صفحة الإعدادات"
+  },
+  "keyTermsTitle": {
+    "message": "مصطلحات رئيسية",
+    "description": "عنوان قسم المصطلحات الاختياري"
+  },
+  "questionsTitle": {
+    "message": "أسئلة مفتوحة",
+    "description": "عنوان قسم الأسئلة الاختياري"
+  },
+  "readingTime": {
+    "message": "وقت القراءة: $minutes$ دقيقة",
+    "description": "شارة وقت القراءة",
+    "placeholders": {
+      "minutes": {
+        "content": "$1",
+        "example": "6"
+      }
+    }
+  },
+  "cachedLabel": {
+    "message": "نتيجة محفوظة",
+    "description": "شارة تظهر عند إعادة استخدام ملخص محفوظ"
+  },
+  "languageWarning": {
+    "message": "قد تكون اللغة غير صحيحة",
+    "description": "شارة تظهر عندما لا يستخدم النموذج لغة الملخص المحددة"
+  },
+  "summaryByModel": {
+    "message": "تم التلخيص بواسطة $model$",
+    "description": "شارة توضح النموذج الذي أنشأ الملخص",
+    "placeholders": {
+      "model": {
+        "content": "$1",
+        "example": "Gemini 3.5 Flash-Lite"
+      }
+    }
+  },
+  "retryButton": {
+    "message": "حاول مرة أخرى",
+    "description": "زر إعادة المحاولة في شاشة الخطأ"
+  },
+  "closeLabel": {
+    "message": "إغلاق",
+    "description": "تسمية الوصول لزر الإغلاق"
+  },
+  "refreshLabel": {
+    "message": "إعادة التلخيص",
+    "description": "تسمية الوصول لزر التحديث"
+  },
+  "genericError": {
     "message": "خطأ: $details$",
     "placeholders": {
       "details": { "content": "$1" }
     }
-  }}
-
+  }
+}

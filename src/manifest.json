@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "__MSG_extName__",
-  "version": "0.95",
+  "version": "0.96",
   "description": "__MSG_extDescription__",
   "default_locale": "en",
   "permissions": [
@@ -9,15 +9,12 @@
     "scripting",
     "storage"
   ],
+  "host_permissions": [
+    "https://generativelanguage.googleapis.com/*"
+  ],
   "background": {
     "service_worker": "background.js"
   },
-  "content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-      "js": ["ai.js"]
-    }
-  ],
   "action": {
     "default_icon": {
       "16": "icon.png",
@@ -30,11 +27,5 @@
     "48": "icon.png",
     "128": "icon.png"
   },
-  "options_page": "options.html",
-  "web_accessible_resources": [
-    {
-      "resources": ["styles/popup.css", "ai.js"],
-      "matches": ["<all_urls>"]
-    }
-  ]
+  "options_page": "options.html"
 }

@@ -1,36 +1,32 @@
+/* Popup: asks the active tab's content script to start a summary. */
 document.addEventListener('DOMContentLoaded', () => {
-    const summarizeBtn = document.getElementById('summarizeBtn');
-    const languageSelect = document.getElementById('language');
+    const summarizeButton = document.getElementById('summarizeBtn');
 
-    // Load the preferred language and set it as the default in the dropdown
-    chrome.storage.sync.get(['preferredLanguage'], (result) => {
-        if (result.preferredLanguage) {
-            languageSelect.value = result.preferredLanguage;
+    summarizeButton.addEventListener('click', async () => {
+        const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+        if (!tab || !tab.id) return;
+
+        try {
+            await startSummarizer(tab.id);
+        } catch (error) {
+            console.error('Could not start the summarizer:', error);
         }
+
+        window.close();
     });
 
-    summarizeBtn.addEventListener('click', () => {
-        // Get the currently active tab
-        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-            const activeTab = tabs[0];
-            if (activeTab && activeTab.id) {
-                // 1. Inject the AI script into the active tab
-                chrome.scripting.executeScript({ // This injects the script that listens for messages
-                    target: { tabId: activeTab.id },
-                    files: ['ai.js']
-                }).then(() => {
-                    // 2. Inject a function to get page content and then send the message
-                    chrome.scripting.executeScript({
-                        target: { tabId: activeTab.id },
-                        func: (lang) => {
-                            const content = document.body.innerText;
-                            chrome.runtime.sendMessage({ action: "summarize", content: content, selectedLanguage: lang });
-                        },
-                        args: [languageSelect.value]
-                    });
-                    window.close(); // Close the popup immediately
-                }).catch(err => console.error("Script injection failed: ", err));
-            }
+    async function startSummarizer(tabId) {
+        try {
+            const response = await chrome.tabs.sendMessage(tabId, { action: 'START_SUMMARY' });
+            if (response && response.started) return;
+        } catch {
+            // The tab was opened before the extension was installed or reloaded.
+        }
+
+        await chrome.scripting.executeScript({
+            target: { tabId },
+            files: ['shared.js', 'ai.js']
         });
-    });
+        await chrome.tabs.sendMessage(tabId, { action: 'START_SUMMARY' });
+    }
 });

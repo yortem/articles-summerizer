@@ -23,9 +23,27 @@
     "message": "Preferred Language:",
     "description": "Label for the language selection."
   },
-  "buttonPositionLabel": {
-    "message": "Summarizer Button Position:",
-    "description": "Label for the button position selection."
+  "modelLabel": {
+    "message": "AI Model:",
+    "description": "Label for the Gemini model selection."
+  },
+  "modelHint": {
+    "message": "Only free-tier models are listed. Daily limits are per model, so you can switch models when one reaches its limit. The fastest, lowest-cost model is selected by default.",
+    "description": "Helper text under the model selector."
+  },
+  "modelOptionLabel": {
+    "message": "$name$ — $count$/day free",
+    "description": "Model option label with its free daily quota.",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Gemini 3.5 Flash-Lite"
+      },
+      "count": {
+        "content": "$2",
+        "example": "500"
+      }
+    }
   },
   "saveButton": {
     "message": "Save Settings",
@@ -43,8 +61,62 @@
     "message": "Invalid API Key. Please check it in the options page.",
     "description": "Error message for an invalid API key."
   },
+  "errorAuth": {
+    "message": "No access to the selected model, or the API key is invalid. Check your settings.",
+    "description": "Error message for authentication or permission failures."
+  },
+  "errorQuota": {
+    "message": "Free-tier limit reached. Wait a moment, or switch to another free model in Settings.",
+    "description": "Error message for rate limits."
+  },
+  "errorTimeout": {
+    "message": "The request took too long. Please try again.",
+    "description": "Error message for timeouts."
+  },
+  "errorNetwork": {
+    "message": "Network error. Check your internet connection and try again.",
+    "description": "Error message for network failures."
+  },
+  "errorBlocked": {
+    "message": "This content could not be summarized for safety reasons.",
+    "description": "Error message when content is blocked by safety filters."
+  },
+  "errorTruncated": {
+    "message": "The response was cut off. Please try again.",
+    "description": "Error message when the model stops early."
+  },
+  "errorNoContent": {
+    "message": "There is not enough text on this page to summarize.",
+    "description": "Error message when the page has too little text."
+  },
+  "errorModel": {
+    "message": "The selected model is unavailable. Choose another model in settings.",
+    "description": "Error message when the model ID is not available."
+  },
+  "errorContextLost": {
+    "message": "The extension was updated or reloaded. Refresh the page and try again.",
+    "description": "Error message when the content script lost its extension context."
+  },
+  "errorTitle": {
+    "message": "Could not summarize",
+    "description": "Title shown above an error message."
+  },
+  "errorUnknown": {
+    "message": "Something went wrong. Please try again.",
+    "description": "Fallback error message for unexpected failures."
+  },
+  "errorSaveSettings": {
+    "message": "Could not save settings. $details$",
+    "description": "Error shown when saving settings fails.",
+    "placeholders": {
+      "details": {
+        "content": "$1",
+        "example": "Storage quota exceeded"
+      }
+    }
+  },
   "errorApiFailed": {
-    "message": "Failed to get summary from AI. $details$",
+    "message": "Failed to get a summary from AI. $details$",
     "description": "Generic error for API failure.",
     "placeholders": {
       "details": {
@@ -54,11 +126,11 @@
     }
   },
   "errorParse": {
-    "message": "Could not parse summary from API response.",
+    "message": "Could not read the summary returned by the AI. Please try again.",
     "description": "Error message when the response from the AI is unreadable."
   },
   "loadingMessage": {
-    "message": "Please wait...",
+    "message": "Summarizing...",
     "description": "Message shown while the summary is being generated."
   },
   "errorApiKeyMissing": {
@@ -66,15 +138,64 @@
     "description": "Short error message for missing API key."
   },
   "errorSetApiKey": {
-    "message": "Please set your API key in the options page.",
-    "description": "Instruction to set the API key."
+    "message": "Open settings",
+    "description": "Link text that opens the options page."
+  },
+  "keyTermsTitle": {
+    "message": "Key terms",
+    "description": "Title of the optional key-terms section."
+  },
+  "questionsTitle": {
+    "message": "Open questions",
+    "description": "Title of the optional open-questions section."
+  },
+  "readingTime": {
+    "message": "$minutes$ min read",
+    "description": "Reading-time chip.",
+    "placeholders": {
+      "minutes": {
+        "content": "$1",
+        "example": "6"
+      }
+    }
+  },
+  "cachedLabel": {
+    "message": "Cached",
+    "description": "Chip shown when a saved summary is reused."
+  },
+  "languageWarning": {
+    "message": "Language check failed",
+    "description": "Chip shown when the model did not use the selected summary language."
+  },
+  "summaryByModel": {
+    "message": "Summarized with $model$",
+    "description": "Chip showing which model produced the summary.",
+    "placeholders": {
+      "model": {
+        "content": "$1",
+        "example": "Gemini 3.5 Flash-Lite"
+      }
+    }
+  },
+  "retryButton": {
+    "message": "Try again",
+    "description": "Retry button in the error view."
+  },
+  "closeLabel": {
+    "message": "Close",
+    "description": "Accessible label for the close button."
+  },
+  "refreshLabel": {
+    "message": "Summarize again",
+    "description": "Accessible label for the refresh button."
   },
   "genericError": {
     "message": "Error: $details$",
     "description": "Generic error prefix.",
     "placeholders": {
-      "details": { "content": "$1" }
+      "details": {
+        "content": "$1"
+      }
     }
   }
 }
-
